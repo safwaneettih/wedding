@@ -3,9 +3,9 @@
     "version": "v6",
     "default_language": "ar",
     "languages": ["ar", "en"],
-    "title_ar": "دعوة زفاف · صفوان و منال — 07 أغسطس 2026",
+    "title_ar": "دعوة زفاف · صفوان و منال — 07 أوت 2026",
     "title_en": "Wedding Invitation · Safwane & Manel — 07 August 2026",
-    "description_ar": "دعوة زفاف صفوان و منال — 06-07 أغسطس 2026، تونس.",
+    "description_ar": "دعوة زفاف صفوان و منال — 06-07 أوت 2026، تونس.",
     "description_en": "Wedding invitation — Safwane & Manel — 06-07 August 2026, Tunis."
   },
 
@@ -31,7 +31,7 @@
   },
 
   "dates": {
-    "date_range": { "ar": "06 — 07 أغسطس 2026", "en": "06 — 07 August 2026" },
+    "date_range": { "ar": "06 — 07 أوت 2026", "en": "06 — 07 August 2026" },
     "countdown_target": "2026-08-07T17:00:00+01:00",
     "main_event_date": "2026-08-07"
   },
@@ -78,7 +78,7 @@
       "date": "2026-08-06",
       "day_number": "06",
       "weekday": { "ar": "الخميس", "en": "Thursday" },
-      "month": { "ar": "أغسطس 2026", "en": "August 2026" },
+      "month": { "ar": "أوت 2026", "en": "August 2026" },
       "tag": { "ar": "المناسبة الأولى", "en": "First Celebration" },
       "title": { "ar": "الحناء والوليمة", "en": "Henna & Walima" },
       "time": { "ar": "7:00 مساءً", "en": "7:00 PM" },
@@ -94,7 +94,7 @@
       "date": "2026-08-07",
       "day_number": "07",
       "weekday": { "ar": "الجمعة", "en": "Friday" },
-      "month": { "ar": "أغسطس 2026", "en": "August 2026" },
+      "month": { "ar": "أوت 2026", "en": "August 2026" },
       "tag": { "ar": "المناسبة الرئيسية", "en": "The Main Event" },
       "title": { "ar": "ليلةُ الزفاف", "en": "The Wedding" },
       "time": { "ar": "5:00 عصرًا", "en": "5:00 PM" },
