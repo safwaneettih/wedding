@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "version": "v6",
+    "default_language": "ar",
+    "languages": ["ar", "en"],
+    "title_ar": "دعوة زفاف · صفوان و منال — 07 أغسطس 2026",
+    "title_en": "Wedding Invitation · Safwane & Manel — 07 August 2026",
+    "description_ar": "دعوة زفاف صفوان و منال — 06-07 أغسطس 2026، تونس.",
+    "description_en": "Wedding invitation — Safwane & Manel — 06-07 August 2026, Tunis."
+  },
+
+  "couple": {
+    "groom": { "ar": "صفوان", "en": "Safwane" },
+    "bride": { "ar": "منال", "en": "Manel" },
+    "amp": { "ar": "و", "en": "&" }
+  },
+
+  "families": {
+    "groom_family": { "ar": "التيح", "en": "Ettih" },
+    "bride_family": { "ar": "الزعبي", "en": "Zaabi" }
+  },
+
+  "parents_invite": {
+    "ar": "يتشرف آلُ التيح وآلُ الزعبي بدعوتِكم لمشاركتِهم فرحةَ زفافِ فلذتَي أكبادِهم",
+    "en": "The Ettih and Zaabi families cordially invite you to share the joy of their children's wedding"
+  },
+
+  "location": {
+    "city": { "ar": "تونس العاصمة · تونس", "en": "Tunis · Tunisia" },
+    "country": { "ar": "تونس", "en": "Tunisia" }
+  },
+
+  "dates": {
+    "date_range": { "ar": "06 — 07 أغسطس 2026", "en": "06 — 07 August 2026" },
+    "countdown_target": "2026-08-07T17:00:00+01:00",
+    "main_event_date": "2026-08-07"
+  },
+
+  "countdown_labels": {
+    "days": { "ar": "أيام", "en": "Days" },
+    "hours": { "ar": "ساعات", "en": "Hours" },
+    "minutes": { "ar": "دقائق", "en": "Minutes" },
+    "seconds": { "ar": "ثوانٍ", "en": "Seconds" }
+  },
+
+  "ui_labels": {
+    "eyebrow_hero": { "ar": "دعوةُ زفاف", "en": "A Wedding Invitation" },
+    "eyebrow_verse": { "ar": "آيةٌ من الذكر", "en": "A Verse from the Qur'an" },
+    "eyebrow_events": { "ar": "المناسبات", "en": "The Events" },
+    "events_title": { "ar": "أيامُ الفرح", "en": "Days of Celebration" },
+    "scroll_hint": { "ar": "مرّر ↓", "en": "Scroll ↓" },
+    "directions_link": { "ar": "الاتجاهات ← Google Maps", "en": "Directions → Google Maps" },
+    "rsvp_button": { "ar": "تأكيدُ الحضور", "en": "Confirm Attendance" },
+    "rsvp_email": "mailto:rsvp@lina-adam.wedding?subject=تأكيد%20الحضور"
+  },
+
+  "verse": {
+    "arabic": "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ",
+    "reference_ar": "سورة الروم · آية 21",
+    "reference_en": "Ar-Rum 30:21",
+    "translation_en": "And among His signs is that He created for you, from yourselves, mates that you may find tranquility in them; and He placed between you affection and mercy. Indeed in that are signs for a people who reflect."
+  },
+
+  "blessing": {
+    "ar": "باركَ اللهُ لكما وباركَ عليكما وجمعَ بينكما في خير"
+  },
+
+  "rsvp_message": {
+    "ar": "نسألُ اللهَ أن يباركَ هذا الزواجَ ويجمعَ بينَ قلبَيهما بالألفةِ والمودة",
+    "en": "May Allah bless this union and unite their hearts in love and harmony."
+  },
+
+  "events": [
+    {
+      "id": "ev1",
+      "order": 1,
+      "is_main": false,
+      "date": "2026-08-06",
+      "day_number": "06",
+      "weekday": { "ar": "الخميس", "en": "Thursday" },
+      "month": { "ar": "أغسطس 2026", "en": "August 2026" },
+      "tag": { "ar": "المناسبة الأولى", "en": "First Celebration" },
+      "title": { "ar": "الحناء والوليمة", "en": "Henna & Walima" },
+      "time": { "ar": "7:00 مساءً", "en": "7:00 PM" },
+      "venue": { "ar": "Dar Younsi", "en": "Dar Younsi" },
+      "location": { "ar": "تونس العاصمة · تونس", "en": "Tunis · Tunisia" },
+      "address": { "ar": "تونس العاصمة", "en": "Tunis" },
+      "maps_link": "https://maps.app.goo.gl/yhWdSHQb3WR4FPjj7"
+    },
+    {
+      "id": "ev2",
+      "order": 2,
+      "is_main": true,
+      "date": "2026-08-07",
+      "day_number": "07",
+      "weekday": { "ar": "الجمعة", "en": "Friday" },
+      "month": { "ar": "أغسطس 2026", "en": "August 2026" },
+      "tag": { "ar": "المناسبة الرئيسية", "en": "The Main Event" },
+      "title": { "ar": "ليلةُ الزفاف", "en": "The Wedding" },
+      "time": { "ar": "5:00 عصرًا", "en": "5:00 PM" },
+      "venue": { "ar": "Haifa Palace", "en": "Haifa Palace" },
+      "location": { "ar": "Route Mornag · تونس", "en": "Route Mornag · Tunis" },
+      "address": { "ar": "Route Mornag", "en": "Route Mornag" },
+      "maps_link": "https://maps.app.goo.gl/mdsh987HsGudBCRb9"
+    }
+  ],
+
+  "footer": {
+    "meta": {
+      "ar": "صفوان و منال · 06-07 · 08 · 2026 · تونس",
+      "en": "Safwane & Manel · 06-07 · 08 · 2026 · Tunis"
+    }
+  },
+
+  "design": {
+    "theme": "luminous pearl + rose-gold + emerald",
+    "vibe": "luxurious, alive, white feathers, roses, Islamic",
+    "fonts_ar": { "display": "Reem Kufi", "body": "Amiri" },
+    "fonts_en": { "display": "Italiana", "body": "Mulish" },
+    "palette": {
+      "pearl": "#FBF8F2",
+      "mist": "#F1EAE0",
+      "blush": "#EAD7D1",
+      "blush_deep": "#D9B5AC",
+      "rose": "#C2876F",
+      "rose_deep": "#A85F4A",
+      "emerald": "#1F4D3C",
+      "emerald_deep": "#123A2D",
+      "gold": "#B8966A",
+      "gold_pale": "#D4BC92",
+      "gold_deep": "#8E6F45",
+      "ink": "#4A3F36",
+      "ink_soft": "#6B5F54",
+      "ink_mute": "#9A8E82",
+      "white": "#FFFFFF"
+    }
+  }
+}
