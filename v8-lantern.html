@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>دعوة زفاف · صفوان و منال — الفانوس</title>
+<meta name="description" content="دعوة زفاف صفوان و منال — 06-07 أوت 2026، تونس." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --blue:#1B3A5C;--blue-deep:#0F2540;--blue-soft:#2E5A82;--blue-pale:#4A78A0;
+  --paper:#FAF8F5;--paper-warm:#F5F0E8;
+  --gold:#B8966A;--gold-pale:#D4BC92;--gold-deep:#8E6F45;
+  --rose:#C2876F;--rose-deep:#A85F4A;
+  --ink:#2A3F55;--ink-soft:#4A6080;--ink-mute:#8A9AB0;
+  --white:#fff;--line:rgba(27,58,92,.2);--line-soft:rgba(27,58,92,.1);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --display:"Cormorant Garamond",Georgia,serif;
+  --body:"Jost",system-ui,sans-serif;
+  --ar-display:"Reem Kufi",sans-serif;--ar-body:"Amiri",serif;
+}
+body.lang-ar{--display:"Reem Kufi",sans-serif;--body:"Amiri",serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--blue);line-height:1.75;overflow-x:hidden;background:var(--paper)}
+::selection{background:var(--blue);color:var(--paper)}
+a{color:inherit;text-decoration:none}img,svg{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+.grain{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:.03;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ===== controls ===== */
+.ctrl{position:fixed;top:20px;z-index:95;background:rgba(250,248,245,.8);border:1px solid var(--line);
+  border-radius:999px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  box-shadow:0 4px 18px rgba(27,58,92,.1);transition:all .4s var(--ease);opacity:0;pointer-events:none}
+.ctrl.show{opacity:1;pointer-events:auto}
+.ctrl:hover{background:var(--white);transform:translateY(-1px)}
+.lang-switch{inset-inline-end:20px;padding:.55em 1.2em;font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}
+body.lang-ar .lang-switch::before{content:"EN"}
+body.lang-en .lang-switch::before{content:"العربية"}
+body.lang-en .lang-switch{text-transform:none;letter-spacing:.04em;font-family:var(--ar-display)}
+.music-btn{inset-inline-start:20px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.music-btn svg{width:16px;height:16px}.music-btn .off{display:none}.music-btn.muted .on{display:none}.music-btn.muted .off{display:block}
+
+/* ===== lantern hero ===== */
+.lantern-scene{position:fixed;inset:0;z-index:100;cursor:pointer;overflow:hidden;background:#0F2540;
+  transition:opacity 1.4s var(--ease),visibility 1.4s}
+.lantern-scene.opened{opacity:0;visibility:hidden;pointer-events:none}
+.lantern-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35;filter:brightness(.5)}
+.lantern-img{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);height:60vh;max-height:480px;width:auto;z-index:2;
+  filter:drop-shadow(0 0 0 transparent);transition:filter 1.5s var(--ease),transform 1.5s var(--ease)}
+.lantern-scene.lit .lantern-img{filter:drop-shadow(0 0 60px rgba(255,200,100,.6)) drop-shadow(0 0 120px rgba(255,180,80,.3));transform:translate(-50%,-50%) scale(1.05)}
+.lantern-sway{animation:sway 4s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:translate(-50%,-50%) rotate(-2deg)}50%{transform:translate(-50%,-50%) rotate(2deg)}}
+.lantern-scene.lit .lantern-sway{animation:sway 4s ease-in-out infinite,gentleFloat 6s ease-in-out infinite}
+@keyframes gentleFloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
+
+.light-burst{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(0);width:200vw;height:200vw;max-width:1400px;max-height:1400px;
+  z-index:1;opacity:0;transition:transform 2s var(--ease),opacity 1.5s var(--ease);pointer-events:none;mix-blend-mode:screen}
+.lantern-scene.lit .light-burst{transform:translate(-50%,-50%) scale(1);opacity:.7}
+
+.lantern-veil{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 42%,rgba(15,37,64,.2),rgba(15,37,64,.7));
+  transition:opacity 1s var(--ease)}
+.lantern-scene.lit .lantern-veil{opacity:0;pointer-events:none}
+.lantern-bism{font-family:var(--ar-body);color:var(--gold-pale);font-size:clamp(1rem,3vw,1.4rem);
+  letter-spacing:.04em;text-shadow:0 2px 24px rgba(0,0,0,.6);margin-bottom:2rem;
+  opacity:0;animation:fadeIn 1.6s var(--ease) .4s forwards}
+.lantern-hint{color:rgba(212,188,146,.7);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:600;margin-top:3rem;text-shadow:0 2px 12px rgba(0,0,0,.6);
+  opacity:0;animation:fadeIn 1.6s var(--ease) 1.2s forwards}
+body.lang-ar .lantern-hint{font-family:var(--ar-body);letter-spacing:.06em;text-transform:none;font-size:.86rem}
+.lantern-pulse{position:absolute;width:50px;height:50px;border-radius:50%;border:1px solid rgba(212,188,146,.3);
+  animation:pulse 2.4s ease-out 1.6s infinite;pointer-events:none}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes pulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(2.5);opacity:0}}
+
+/* ===== layout ===== */
+main{position:relative;z-index:5}
+.sec{padding:clamp(3.5rem,9vh,6rem) 1.5rem;text-align:center;position:relative}
+.sec-inner{max-width:640px;margin:0 auto}
+.sec-paper{background:var(--paper)}.sec-warm{background:var(--paper-warm)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.reveal.r2{transition-delay:.1s}.reveal.r3{transition-delay:.2s}.reveal.r4{transition-delay:.3s}.reveal.r5{transition-delay:.4s}
+
+.eyebrow{font-family:var(--body);font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--blue-soft);margin-bottom:1rem}
+body.lang-ar .eyebrow{font-family:var(--ar-display);letter-spacing:.06em;text-transform:none;font-size:.84rem}
+.h-display{font-family:var(--display);font-size:clamp(2.2rem,6.5vw,3.6rem);font-weight:400;color:var(--blue);line-height:1.2}
+body.lang-ar .h-display{font-family:var(--ar-display);font-weight:700}
+.h-script{font-family:var(--display);font-size:clamp(2rem,6vw,3.2rem);font-weight:400;color:var(--blue);font-style:italic}
+body.lang-ar .h-script{font-family:var(--ar-display);font-weight:700;font-style:normal}
+
+.divider{display:flex;align-items:center;justify-content:center;gap:1rem;max-width:300px;margin:1.5rem auto}
+.divider .l{height:1px;flex:1;background:linear-gradient(90deg,transparent,var(--line) 40%,var(--line) 60%,transparent)}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+
+/* ===== parents ===== */
+.parents-text{font-family:var(--body);font-size:clamp(1rem,2.5vw,1.25rem);color:var(--ink-soft);line-height:2;max-width:520px;margin:0 auto;font-weight:300}
+body.lang-ar .parents-text{font-family:var(--ar-body)}
+.names-big{font-family:var(--display);font-size:clamp(2.8rem,9vw,5rem);color:var(--blue);line-height:1.15;font-weight:400}
+body.lang-ar .names-big{font-family:var(--ar-display);font-weight:700}
+.names-big .amp{font-size:.4em;color:var(--gold);font-style:italic}
+body.lang-ar .names-big .amp{font-family:var(--ar-body);font-style:normal}
+
+/* ===== countdown ===== */
+.cd-row{display:flex;justify-content:center;gap:clamp(.6rem,2.5vw,1.2rem)}
+.cd-box{display:flex;flex-direction:column;align-items:center;gap:.45rem}
+.cd-num-wrap{width:clamp(54px,13vw,72px);height:clamp(54px,13vw,72px);display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:8px;background:rgba(250,248,245,.6)}
+.cd-num-wrap span{font-family:var(--display);font-size:clamp(1.3rem,3.2vw,1.8rem);color:var(--blue);font-weight:500;font-variant-numeric:tabular-nums}
+body.lang-ar .cd-num-wrap span{font-family:var(--ar-display);font-weight:700}
+.cd-label{font-family:var(--body);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);font-weight:600}
+body.lang-ar .cd-label{font-family:var(--ar-body);letter-spacing:.04em;text-transform:none;font-size:.76rem;font-weight:400}
+.cd-sub{font-family:var(--body);font-size:.84rem;color:var(--ink-soft);margin-top:1.8rem;font-weight:300}
+body.lang-ar .cd-sub{font-family:var(--ar-body)}
+
+/* ===== fest cards ===== */
+.fest-cards{display:flex;flex-direction:column;gap:1.2rem;max-width:400px;margin:2rem auto 0}
+.fest-card{text-align:center;border-radius:16px;padding:clamp(1.6rem,4vw,2.2rem) clamp(1.2rem,3vw,1.8rem);
+  background:var(--paper);border:1px solid var(--line-soft);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.fest-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(27,58,92,.1)}
+.fest-card.main{border:1.5px solid var(--blue);box-shadow:0 6px 24px rgba(27,58,92,.12)}
+.fest-name{font-family:var(--display);font-size:clamp(1.5rem,4vw,2rem);color:var(--blue);font-weight:400;margin-bottom:.5rem;line-height:1.2}
+body.lang-ar .fest-name{font-family:var(--ar-display);font-weight:700}
+.fest-date-sm{font-family:var(--body);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-soft);font-weight:600;margin-bottom:.7rem}
+body.lang-ar .fest-date-sm{font-family:var(--ar-body);letter-spacing:.04em;text-transform:none;font-size:.86rem}
+.fest-venue-name{font-family:var(--display);font-size:1.1rem;color:var(--ink);font-weight:400;margin-bottom:.2rem}
+body.lang-ar .fest-venue-name{font-family:var(--ar-body)}
+.fest-venue-loc{font-family:var(--body);font-size:.82rem;color:var(--ink-mute);margin-bottom:1rem;font-weight:300}
+body.lang-ar .fest-venue-loc{font-family:var(--ar-body);font-size:.92rem}
+
+.btn-outline{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--body);font-size:.72rem;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--blue);border:1.5px solid var(--blue);
+  padding:.8em 1.6em;border-radius:999px;transition:all .3s var(--ease);font-weight:600}
+body.lang-ar .btn-outline{font-family:var(--ar-display);letter-spacing:.04em;text-transform:none;font-size:.84rem}
+.btn-outline:hover{background:var(--blue);color:var(--paper)}
+.btn-outline svg{width:14px;height:14px}
+
+/* ===== rsvp ===== */
+.rsvp-form{max-width:460px;margin:2rem auto 0;background:var(--paper);border:1px solid var(--line-soft);
+  border-radius:16px;padding:clamp(1.5rem,4vw,2.2rem);text-align:start}
+.field{margin-bottom:1.2rem}
+.field label{display:block;font-family:var(--body);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:.4rem}
+body.lang-ar .field label{font-family:var(--ar-display);letter-spacing:.04em;text-transform:none;font-size:.82rem}
+.field input,.field textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:.75em .9em;
+  font-family:var(--body);font-size:.9rem;color:var(--blue);background:var(--paper-warm);transition:border-color .3s}
+body.lang-ar .field input,body.lang-ar .field textarea{font-family:var(--ar-body)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--blue)}
+.field textarea{min-height:76px;resize:vertical}
+.attend-btns{display:flex;flex-direction:column;gap:.6rem}
+.attend-btn{padding:.8em;border-radius:8px;font-family:var(--body);font-size:.84rem;font-weight:500;
+  background:var(--paper-warm);border:1px solid var(--line);color:var(--blue);transition:all .3s;text-align:center}
+body.lang-ar .attend-btn{font-family:var(--ar-body)}
+.attend-btn.active{background:var(--blue);color:var(--paper);border-color:var(--blue)}
+.rsvp-submit{width:100%;padding:.9em;border-radius:8px;font-family:var(--body);font-size:.82rem;font-weight:600;
+  background:var(--blue);color:var(--paper);letter-spacing:.1em;text-transform:uppercase;transition:all .3s;
+  display:flex;align-items:center;justify-content:center;gap:.5rem}
+body.lang-ar .rsvp-submit{font-family:var(--ar-display);letter-spacing:.04em;text-transform:none;font-size:.9rem}
+.rsvp-submit:hover{background:var(--blue-deep)}.rsvp-submit:disabled{opacity:.4;cursor:not-allowed}
+.rsvp-deadline{font-family:var(--body);font-size:.74rem;letter-spacing:.1em;color:var(--ink-mute);margin-bottom:1.4rem;font-weight:400}
+body.lang-ar .rsvp-deadline{font-family:var(--ar-body);letter-spacing:.04em;font-size:.86rem}
+
+/* ===== ticket ===== */
+.ticket-wrap{max-width:360px;margin:0 auto}
+.ticket-outer{background:var(--blue);border-radius:22px;padding:8px;box-shadow:0 12px 36px rgba(15,37,64,.2)}
+.ticket-inner{background:var(--paper);border-radius:16px;padding:clamp(2.2rem,6vw,3rem) clamp(1.4rem,5vw,2rem);text-align:center;
+  clip-path:polygon(0% 8%,4% 4%,8% 0%,15% 2%,22% 0%,29% 2%,36% 0%,43% 2%,50% 0%,57% 2%,64% 0%,71% 2%,78% 0%,85% 2%,92% 0%,96% 4%,100% 8%,98% 15%,100% 22%,98% 29%,100% 36%,98% 43%,100% 50%,98% 57%,100% 64%,98% 71%,100% 78%,98% 85%,100% 92%,96% 96%,92% 100%,85% 98%,78% 100%,71% 98%,64% 100%,57% 98%,50% 100%,43% 98%,36% 100%,29% 98%,22% 100%,15% 98%,8% 100%,4% 96%,0% 92%,2% 85%,0% 78%,2% 71%,0% 64%,2% 57%,0% 50%,2% 43%,0% 36%,2% 29%,0% 22%,2% 15%)}
+.ticket-h{font-family:var(--display);font-size:clamp(1.8rem,5vw,2.5rem);color:var(--blue);font-weight:400;font-style:italic;margin-bottom:1rem}
+body.lang-ar .ticket-h{font-family:var(--ar-display);font-weight:700;font-style:normal}
+.ticket-p{font-family:var(--body);font-size:.92rem;color:var(--ink-soft);line-height:1.8;margin-bottom:1.2rem;font-weight:300}
+body.lang-ar .ticket-p{font-family:var(--ar-body);line-height:2}
+.ticket-names{font-family:var(--display);font-size:clamp(1.4rem,4vw,1.9rem);color:var(--blue);font-weight:400;font-style:italic}
+body.lang-ar .ticket-names{font-family:var(--ar-display);font-weight:700;font-style:normal}
+.ticket-foot{margin-top:2rem;padding-top:1.4rem;border-top:1px solid var(--line-soft)}
+.ticket-foot span{font-family:var(--body);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);font-weight:500}
+body.lang-ar .ticket-foot span{font-family:var(--ar-body);letter-spacing:.04em;text-transform:none;font-size:.76rem;font-weight:400}
+
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .lantern-bism,.lantern-hint{opacity:1;animation:none}.lantern-pulse{display:none}.lantern-sway{animation:none}
+}
+</style>
+</head>
+<body class="lang-ar">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><symbol id="pin" viewBox="0 0 24 24">
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="12" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  </symbol></defs>
+</svg>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ===== LANTERN HERO ===== -->
+<div class="lantern-scene" id="lanternScene">
+  <img class="lantern-bg" src="v8-assets/courtyard.png" alt="" />
+  <img class="light-burst" src="v8-assets/light-burst.png" alt="" />
+  <div class="lantern-sway"><img class="lantern-img" id="lanternImg" src="v8-assets/lantern.png" alt="" /></div>
+  <div class="lantern-veil">
+    <div class="lantern-bism" data-i18n="bism">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+    <div class="lantern-hint" data-i18n="hint">انقر لإضاءة الفانوس</div>
+    <div class="lantern-pulse"></div>
+  </div>
+</div>
+
+<audio id="bgMusic" src="v7-assets/intro-music.mp3" loop preload="none"></audio>
+
+<button class="ctrl music-btn muted" id="musicBtn" aria-label="Toggle music">
+  <svg class="on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+</button>
+<button class="ctrl lang-switch" id="langSwitch" aria-label="Switch language"></button>
+
+<main id="main" style="opacity:0;transition:opacity 1.2s var(--ease)">
+
+  <section class="sec sec-paper">
+    <div class="sec-inner">
+      <div class="reveal"><p class="eyebrow" data-i18n="eyebrow_invite">دعوةُ زفاف</p></div>
+      <p class="parents-text reveal r2" data-i18n="parents">يتشرف آلُ التيح وآلُ الزعبي بدعوتِكم لمشاركتِهم فرحةَ زفافِ فلذتَي أكبادِهم</p>
+      <div class="divider reveal r3"><span class="l"></span><span class="dot"></span><span class="l"></span></div>
+      <div class="names-big reveal r4">
+        <span data-i18n="name_groom">صفوان</span>
+        <span class="amp" data-i18n="amp">&amp;</span>
+        <span data-i18n="name_bride">منال</span>
+      </div>
+      <p class="reveal r5" style="font-family:var(--body);font-size:clamp(.9rem,2vw,1.1rem);color:var(--blue-soft);letter-spacing:.08em;margin-top:1rem;font-weight:300" data-i18n="date_hero">06 — 07 أوت 2026 · تونس</p>
+    </div>
+  </section>
+
+  <section class="sec sec-warm">
+    <div class="sec-inner">
+      <div class="reveal"><h2 class="h-display" data-i18n="cd_title">العدّ التنازلي</h2></div>
+      <div class="divider reveal r2"><span class="l"></span><span class="dot"></span><span class="l"></span></div>
+      <div class="cd-row reveal r3" id="countdown">
+        <div class="cd-box"><div class="cd-num-wrap"><span data-u="days">—</span></div><div class="cd-label" data-i18n="cd_d">أيام</div></div>
+        <div class="cd-box"><div class="cd-num-wrap"><span data-u="hours">—</span></div><div class="cd-label" data-i18n="cd_h">ساعات</div></div>
+        <div class="cd-box"><div class="cd-num-wrap"><span data-u="minutes">—</span></div><div class="cd-label" data-i18n="cd_m">دقائق</div></div>
+        <div class="cd-box"><div class="cd-num-wrap"><span data-u="seconds">—</span></div><div class="cd-label" data-i18n="cd_s">ثوانٍ</div></div>
+      </div>
+      <p class="cd-sub reveal r4" data-i18n="cd_sub">قبل اليوم الكبير</p>
+    </div>
+  </section>
+
+  <section class="sec sec-paper">
+    <div class="sec-inner">
+      <div class="reveal"><p class="eyebrow" data-i18n="eyebrow_fest">المناسبات</p><h2 class="h-display" data-i18n="fest_title">أيامُ الفرح</h2></div>
+      <div class="fest-cards">
+        <div class="fest-card reveal r3">
+          <h3 class="fest-name" data-i18n="ev1_title">الحناء والوليمة</h3>
+          <div class="fest-date-sm" data-i18n="ev1_date">الخميس 06 أوت 2026 · 7:00 مساءً</div>
+          <div class="fest-venue-name" data-i18n="ev1_venue">Dar Younsi</div>
+          <div class="fest-venue-loc" data-i18n="ev1_loc">تونس العاصمة · تونس</div>
+          <a class="btn-outline" href="https://maps.app.goo.gl/yhWdSHQb3WR4FPjj7" target="_blank" rel="noopener"><svg><use href="#pin"/></svg><span data-i18n="map_btn">افتح في Google Maps</span></a>
+        </div>
+        <div class="fest-card main reveal r4">
+          <h3 class="fest-name" data-i18n="ev2_title">ليلةُ الزفاف</h3>
+          <div class="fest-date-sm" data-i18n="ev2_date">الجمعة 07 أوت 2026 · 5:00 عصرًا</div>
+          <div class="fest-venue-name" data-i18n="ev2_venue">Haifa Palace</div>
+          <div class="fest-venue-loc" data-i18n="ev2_loc">Route Mornag · تونس</div>
+          <a class="btn-outline" href="https://maps.app.goo.gl/mdsh987HsGudBCRb9" target="_blank" rel="noopener"><svg><use href="#pin"/></svg><span data-i18n="map_btn">افتح في Google Maps</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec-warm" id="sec-rsvp">
+    <div class="sec-inner">
+      <div class="reveal"><h2 class="h-script" data-i18n="rsvp_title">أكّد حضورك</h2><p class="rsvp-deadline" data-i18n="rsvp_deadline">قبل 07 جويلية 2026</p></div>
+      <form class="rsvp-form reveal r3" id="rsvpForm">
+        <div class="field"><label data-i18n="f_name">الاسم الكامل *</label><input type="text" id="rsvp-name" required data-i18n-ph="f_name_ph" placeholder="اسمك" /></div>
+        <div class="field"><label data-i18n="f_email">البريد الإلكتروني</label><input type="email" id="rsvp-email" data-i18n-ph="f_email_ph" placeholder="you@email.com" /></div>
+        <div class="field"><label data-i18n="f_attend">هل ستكون حاضرًا؟ *</label>
+          <div class="attend-btns"><button type="button" class="attend-btn" data-attend="yes" data-i18n="f_yes">نعم، سأكون هناك</button><button type="button" class="attend-btn" data-attend="no" data-i18n="f_no">للأسف لا أستطيع الحضور</button></div>
+        </div>
+        <div class="field"><label data-i18n="f_msg">رسالة للعروسين</label><textarea id="rsvp-message" data-i18n-ph="f_msg_ph" placeholder="اكتب لنا بعض الكلمات..." rows="3"></textarea></div>
+        <button type="submit" class="rsvp-submit" id="rsvpSubmit" disabled><span data-i18n="f_submit">تأكيد</span></button>
+      </form>
+    </div>
+  </section>
+
+  <section class="sec sec-warm" style="padding-bottom:5vh">
+    <div class="ticket-wrap reveal">
+      <div class="ticket-outer"><div class="ticket-inner">
+        <h2 class="ticket-h" data-i18n="thanks_title">شكرًا</h2>
+        <p class="ticket-p" data-i18n="thanks_msg">على تواجدِكم بجانبِنا في هذا اليومِ الخاص. حضورُكم هو أجملُ هدية.</p>
+        <div class="ticket-names" data-i18n="thanks_names">صفوان و منال</div>
+        <div class="ticket-foot"><span data-i18n="thanks_foot">صفوان و منال · 2026 · تونس</span></div>
+      </div></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const I18N={
+    ar:{bism:"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",hint:"انقر لإضاءة الفانوس",
+      eyebrow_invite:"دعوةُ زفاف",parents:"يتشرف آلُ التيح وآلُ الزعبي بدعوتِكم لمشاركتِهم فرحةَ زفافِ فلذتَي أكبادِهم",
+      name_groom:"صفوان",amp:"&",name_bride:"منال",date_hero:"06 — 07 أوت 2026 · تونس",
+      cd_title:"العدّ التنازلي",cd_d:"أيام",cd_h:"ساعات",cd_m:"دقائق",cd_s:"ثوانٍ",cd_sub:"قبل اليوم الكبير",
+      eyebrow_fest:"المناسبات",fest_title:"أيامُ الفرح",
+      ev1_title:"الحناء والوليمة",ev1_date:"الخميس 06 أوت 2026 · 7:00 مساءً",ev1_venue:"Dar Younsi",ev1_loc:"تونس العاصمة · تونس",
+      ev2_title:"ليلةُ الزفاف",ev2_date:"الجمعة 07 أوت 2026 · 5:00 عصرًا",ev2_venue:"Haifa Palace",ev2_loc:"Route Mornag · تونس",
+      map_btn:"افتح في Google Maps",
+      rsvp_title:"أكّد حضورك",rsvp_deadline:"قبل 07 جويلية 2026",
+      f_name:"الاسم الكامل *",f_name_ph:"اسمك",f_email:"البريد الإلكتروني",f_email_ph:"you@email.com",
+      f_attend:"هل ستكون حاضرًا؟ *",f_yes:"نعم، سأكون هناك",f_no:"للأسف لا أستطيع الحضور",
+      f_msg:"رسالة للعروسين",f_msg_ph:"اكتب لنا بعض الكلمات...",f_submit:"تأكيد",
+      thanks_title:"شكرًا",thanks_msg:"على تواجدِكم بجانبِنا في هذا اليومِ الخاص. حضورُكم هو أجملُ هدية.",
+      thanks_names:"صفوان و منال",thanks_foot:"صفوان و منال · 2026 · تونس"},
+    en:{bism:"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",hint:"Tap to light the lantern",
+      eyebrow_invite:"A Wedding Invitation",parents:"The Ettih and Zaabi families cordially invite you to share the joy of their children's wedding",
+      name_groom:"Safwane",amp:"&",name_bride:"Manel",date_hero:"06 — 07 August 2026 · Tunis",
+      cd_title:"Countdown",cd_d:"Days",cd_h:"Hours",cd_m:"Minutes",cd_s:"Seconds",cd_sub:"until the big day",
+      eyebrow_fest:"The Events",fest_title:"Days of Celebration",
+      ev1_title:"Henna & Walima",ev1_date:"Thursday 06 August 2026 · 7:00 PM",ev1_venue:"Dar Younsi",ev1_loc:"Tunis · Tunisia",
+      ev2_title:"The Wedding",ev2_date:"Friday 07 August 2026 · 5:00 PM",ev2_venue:"Haifa Palace",ev2_loc:"Route Mornag · Tunis",
+      map_btn:"Open in Google Maps",
+      rsvp_title:"Confirm your attendance",rsvp_deadline:"Before 07 July 2026",
+      f_name:"Full name *",f_name_ph:"Your name",f_email:"Email",f_email_ph:"you@email.com",
+      f_attend:"Will you be attending? *",f_yes:"Yes, I'll be there",f_no:"Sorry, I can't make it",
+      f_msg:"Message for the couple",f_msg_ph:"Write a few words...",f_submit:"Confirm",
+      thanks_title:"Thank you",thanks_msg:"For being by our side on this special day. Your presence is the most beautiful gift.",
+      thanks_names:"Safwane & Manel",thanks_foot:"Safwane & Manel · 2026 · Tunis"}
+  };
+  let lang="ar";
+  function applyLang(l){lang=l;document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr";
+    document.body.classList.toggle("lang-ar",l==="ar");document.body.classList.toggle("lang-en",l==="en");
+    document.querySelectorAll("[data-i18n]").forEach(el=>{const v=I18N[l][el.getAttribute("data-i18n")];if(v!=null)el.textContent=v;});
+    document.querySelectorAll("[data-i18n-ph]").forEach(el=>{const v=I18N[l][el.getAttribute("data-i18n-ph")];if(v!=null)el.placeholder=v;});
+    renderCountdown();}
+  document.getElementById("langSwitch").addEventListener("click",()=>applyLang(lang==="ar"?"en":"ar"));
+
+  const scene=document.getElementById("lanternScene"),main=document.getElementById("main");
+  const musicBtn=document.getElementById("musicBtn"),bgMusic=document.getElementById("bgMusic");
+  let opened=false,musicPlaying=false;
+  function lightLantern(){
+    if(opened)return;opened=true;
+    scene.classList.add("lit");
+    if(!reduce){bgMusic.play().then(()=>{musicPlaying=true;musicBtn.classList.remove("muted")}).catch(()=>{});}
+    setTimeout(()=>{
+      scene.classList.add("opened");main.style.opacity="1";
+      document.querySelectorAll(".ctrl").forEach(c=>c.classList.add("show"));
+      observeReveals();
+    },reduce?0:2500);
+  }
+  scene.addEventListener("click",lightLantern);
+  if(reduce){lightLantern();}
+  musicBtn.addEventListener("click",e=>{e.stopPropagation();
+    if(musicPlaying){bgMusic.pause();musicPlaying=false;musicBtn.classList.add("muted")}
+    else{bgMusic.play().then(()=>{musicPlaying=true;musicBtn.classList.remove("muted")}).catch(()=>{})}});
+
+  const TARGET=new Date("2026-08-07T17:00:00+01:00").getTime();let lastVals={};
+  function renderCountdown(){const cd=document.getElementById("countdown");if(!cd)return;
+    let diff=TARGET-Date.now();if(diff<0)diff=0;
+    const vals={days:Math.floor(diff/86400000),hours:Math.floor(diff/3600000)%24,minutes:Math.floor(diff/60000)%60,seconds:Math.floor(diff/1000)%60};
+    ["days","hours","minutes","seconds"].forEach(u=>{const el=cd.querySelector('[data-u="'+u+'"]');if(!el)return;
+      const txt=String(vals[u]).padStart(u==="days"?1:2,"0");if(lastVals[u]!==vals[u]){el.textContent=txt;lastVals[u]=vals[u];}});}
+
+  let attendVal=null;
+  document.querySelectorAll(".attend-btn").forEach(btn=>btn.addEventListener("click",()=>{
+    document.querySelectorAll(".attend-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+    attendVal=btn.dataset.attend;document.getElementById("rsvpSubmit").disabled=false;}));
+  document.getElementById("rsvpForm").addEventListener("submit",e=>{e.preventDefault();
+    const s=document.getElementById("rsvpSubmit");s.innerHTML="<span>✓</span>";s.disabled=true;});
+
+  let io;
+  function observeReveals(){if(io)return;io=new IntersectionObserver(es=>{es.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.12,rootMargin:"0px 0px -6% 0px"});
+    document.querySelectorAll(".reveal").forEach(el=>io.observe(el));}
+
+  applyLang("ar");renderCountdown();setInterval(renderCountdown,1000);
+})();
+</script>
+</body>
+</html>
