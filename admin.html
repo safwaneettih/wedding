@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin · صفوان و منال</title>
+<meta name="robots" content="noindex,nofollow" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --blue:#1B3A5C;--blue-deep:#0F2540;--blue-soft:#2E5A82;--blue-pale:#4A78A0;
+  --paper:#FAF8F5;--paper-warm:#F5F0E8;--paper-deep:#EDE6DA;
+  --gold:#B8966A;--gold-pale:#D4BC92;
+  --ink:#2A3F55;--ink-soft:#4A6080;--ink-mute:#8A9AB0;
+  --white:#fff;--line:rgba(27,58,92,.2);--line-soft:rgba(27,58,92,.1);
+  --green:#2D8659;--red:#C2876F;--amber:#D4A05A;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --font:"Jost",system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);color:var(--ink);background:var(--paper);min-height:100vh}
+a{color:inherit;text-decoration:none}
+button,input,textarea,select{font-family:inherit}
+
+.hidden{display:none !important}
+
+/* ===== login ===== */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.login-card{max-width:360px;width:100%;text-align:center}
+.login-card h1{font-size:1.4rem;font-weight:600;color:var(--blue);margin-bottom:.4rem}
+.login-card p{font-size:.84rem;color:var(--ink-mute);margin-bottom:2rem}
+.login-input{width:100%;padding:.8em 1em;border:1px solid var(--line);border-radius:8px;
+  font-size:.9rem;color:var(--ink);background:var(--white);margin-bottom:.8rem;transition:border-color .3s}
+.login-input:focus{outline:none;border-color:var(--blue)}
+.login-btn{width:100%;padding:.85em;border:0;border-radius:8px;font-size:.86rem;font-weight:600;
+  background:var(--blue);color:var(--white);cursor:pointer;transition:background .3s}
+.login-btn:hover{background:var(--blue-deep)}
+.login-err{color:var(--red);font-size:.8rem;margin-top:.6rem;min-height:1.2em}
+.login-note{margin-top:2rem;font-size:.76rem;color:var(--ink-mute);line-height:1.6}
+.login-note a{color:var(--blue);text-decoration:underline}
+
+/* ===== app layout ===== */
+.app{display:none;min-height:100vh}
+.app.show{display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 2rem;
+  background:var(--blue);color:var(--white);height:56px;position:sticky;top:0;z-index:50}
+.topbar-brand{display:flex;align-items:center;gap:.6rem;font-size:.9rem;font-weight:600}
+.topbar-brand .dot{width:6px;height:6px;border-radius:50%;background:var(--gold-pale)}
+.topbar-links{display:flex;gap:.3rem}
+.topbar-link{padding:.5em 1em;font-size:.78rem;font-weight:500;border-radius:6px;cursor:pointer;
+  color:rgba(255,255,255,.7);transition:all .2s;border:none;background:none}
+.topbar-link:hover{color:var(--white);background:rgba(255,255,255,.1)}
+.topbar-link.active{color:var(--white);background:rgba(255,255,255,.15)}
+.topbar-user{display:flex;align-items:center;gap:1rem;font-size:.78rem}
+.topbar-user .email{color:rgba(255,255,255,.6)}
+.topbar-user button{font-size:.74rem;color:rgba(255,255,255,.7);background:none;border:none;cursor:pointer;padding:.4em .8em;border-radius:6px}
+.topbar-user button:hover{color:var(--white);background:rgba(255,255,255,.1)}
+
+.content{flex:1;padding:2rem;max-width:1000px;margin:0 auto;width:100%}
+
+/* ===== stats ===== */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--white);border:1px solid var(--line-soft);border-radius:12px;padding:1.4rem;text-align:center}
+.stat-num{font-size:2.4rem;font-weight:700;color:var(--blue);line-height:1;margin-bottom:.3rem;font-variant-numeric:tabular-nums}
+.stat-label{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute)}
+.stat-card.green .stat-num{color:var(--green)}
+.stat-card.red .stat-num{color:var(--red)}
+.stat-card.amber .stat-num{color:var(--amber)}
+
+/* ===== section title ===== */
+.sec-title{font-size:1.2rem;font-weight:600;color:var(--blue);margin-bottom:1.2rem}
+
+/* ===== table ===== */
+.table-wrap{background:var(--white);border:1px solid var(--line-soft);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--paper-warm)}
+th{padding:.8rem 1rem;text-align:start;font-size:.74rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-mute);border-bottom:1px solid var(--line-soft)}
+td{padding:.8rem 1rem;font-size:.86rem;color:var(--ink);border-bottom:1px solid var(--line-soft)}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:.25em .8em;border-radius:999px;font-size:.7rem;font-weight:600}
+.badge.yes{background:rgba(45,134,89,.12);color:var(--green)}
+.badge.no{background:rgba(194,135,111,.12);color:var(--red)}
+.badge.pending{background:rgba(212,160,90,.12);color:var(--amber)}
+
+.filter-row{display:flex;gap:.6rem;margin-bottom:1rem;align-items:center;flex-wrap:wrap}
+.filter-btn{padding:.4em .9em;font-size:.78rem;font-weight:500;border-radius:6px;cursor:pointer;
+  border:1px solid var(--line);background:var(--white);color:var(--ink);transition:all .2s}
+.filter-btn.active{background:var(--blue);color:var(--white);border-color:var(--blue)}
+.export-btn{margin-inline-start:auto;padding:.4em 1em;font-size:.78rem;font-weight:600;border-radius:6px;
+  cursor:pointer;border:1px solid var(--blue);background:var(--white);color:var(--blue);transition:all .2s}
+.export-btn:hover{background:var(--blue);color:var(--white)}
+
+/* ===== content form ===== */
+.content-form{display:grid;gap:1.2rem}
+.field-group{background:var(--white);border:1px solid var(--line-soft);border-radius:12px;padding:1.4rem}
+.field-group h3{font-size:.84rem;font-weight:600;color:var(--blue);margin-bottom:1rem;
+  letter-spacing:.04em;text-transform:uppercase}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.8rem}
+.field-row.single{grid-template-columns:1fr}
+.field-tag{font-size:.72rem;font-weight:600;color:var(--ink-mute);margin-bottom:.3rem}
+.field-tag .ar{font-family:"Reem Kufi",sans-serif;color:var(--ink);font-weight:500}
+.field-input{width:100%;padding:.6em .8em;border:1px solid var(--line);border-radius:6px;
+  font-size:.86rem;color:var(--ink);background:var(--paper);transition:border-color .3s}
+.field-input:focus{outline:none;border-color:var(--blue)}
+.field-textarea{min-height:60px;resize:vertical;font-family:inherit}
+
+.event-card{border:1px solid var(--line-soft);border-radius:8px;padding:1rem;margin-top:.8rem;position:relative}
+.event-card h4{font-size:.8rem;font-weight:600;color:var(--blue-soft);margin-bottom:.8rem}
+.event-remove{position:absolute;top:.8rem;inset-inline-end:.8rem;font-size:.72rem;color:var(--red);
+  cursor:pointer;border:none;background:none;padding:.2em .5em;border-radius:4px}
+.event-remove:hover{background:rgba(194,135,111,.1)}
+
+.add-btn{padding:.6em 1.2em;font-size:.78rem;font-weight:600;border:1px dashed var(--line);
+  border-radius:8px;background:var(--white);color:var(--blue);cursor:pointer;transition:all .2s}
+.add-btn:hover{border-color:var(--blue);border-style:solid}
+
+.save-bar{position:sticky;bottom:0;display:flex;justify-content:flex-end;gap:.6rem;padding:1rem 0;margin-top:1rem}
+.save-btn{padding:.7em 2em;font-size:.84rem;font-weight:600;border:0;border-radius:8px;
+  background:var(--blue);color:var(--white);cursor:pointer;transition:background .3s}
+.save-btn:hover{background:var(--blue-deep)}
+.save-btn:disabled{opacity:.5;cursor:not-allowed}
+.save-toast{position:fixed;bottom:2rem;inset-inline-start:50%;transform:translateX(-50%);
+  background:var(--green);color:var(--white);padding:.6em 1.4em;border-radius:8px;font-size:.82rem;
+  font-weight:600;opacity:0;transition:opacity .3s;z-index:100;pointer-events:none}
+.save-toast.show{opacity:1}
+
+/* ===== guest form ===== */
+.guest-add{display:flex;gap:.5rem;margin-bottom:1rem}
+.guest-add input{flex:1;padding:.6em .8em;border:1px solid var(--line);border-radius:6px;font-size:.84rem;background:var(--white)}
+.guest-add input:focus{outline:none;border-color:var(--blue)}
+.guest-add button{padding:.6em 1.4em;font-size:.78rem;font-weight:600;border:0;border-radius:6px;
+  background:var(--blue);color:var(--white);cursor:pointer;white-space:nowrap}
+.guest-add button:hover{background:var(--blue-deep)}
+.guest-actions{display:flex;gap:.3rem}
+.guest-actions button{font-size:.72rem;padding:.25em .6em;border-radius:4px;border:none;
+  cursor:pointer;background:none;color:var(--ink-mute);transition:color .2s}
+.guest-actions button:hover{color:var(--red)}
+.guest-actions button.mail{color:var(--blue)}
+.guest-actions button.mail:hover{color:var(--blue-deep)}
+
+/* ===== responsive ===== */
+@media (max-width:680px){
+  .topbar{padding:0 1rem;flex-wrap:wrap;height:auto;padding-top:.6rem;padding-bottom:.6rem}
+  .topbar-links{order:3;width:100%;justify-content:center;margin-top:.6rem;overflow-x:auto}
+  .content{padding:1rem}
+  .field-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-card">
+    <h1>لوحة التحكم</h1>
+    <p>صفوان و منال · Admin Panel</p>
+    <input class="login-input" type="email" id="loginEmail" placeholder="admin@email.com" />
+    <input class="login-input" type="password" id="loginPass" placeholder="Password" />
+    <button class="login-btn" id="loginBtn">Login</button>
+    <div class="login-err" id="loginErr"></div>
+    <div class="login-note">
+      First time? Create an admin account in your<br>
+      <a href="https://console.firebase.google.com" target="_blank">Firebase Console → Authentication</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div class="app" id="app">
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="dot"></span>
+      <span>صفوان و منال · Admin</span>
+    </div>
+    <nav class="topbar-links">
+      <button class="topbar-link active" data-tab="dashboard">Dashboard</button>
+      <button class="topbar-link" data-tab="content">Content</button>
+      <button class="topbar-link" data-tab="rsvp">RSVPs</button>
+      <button class="topbar-link" data-tab="guests">Guests</button>
+    </nav>
+    <div class="topbar-user">
+      <span class="email" id="userEmail"></span>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="tab-pane" id="tab-dashboard">
+      <h2 class="sec-title">Dashboard</h2>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-label">Total Guests</div></div>
+        <div class="stat-card green"><div class="stat-num" id="statYes">—</div><div class="stat-label">Confirmed</div></div>
+        <div class="stat-card red"><div class="stat-num" id="statNo">—</div><div class="stat-label">Declined</div></div>
+        <div class="stat-card amber"><div class="stat-num" id="statPending">—</div><div class="stat-label">Pending</div></div>
+      </div>
+      <h2 class="sec-title">Recent RSVPs</h2>
+      <div class="table-wrap">
+        <table><thead><tr><th>Name</th><th>Attending</th><th>Date</th></tr></thead>
+        <tbody id="recentRsvpBody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="tab-pane hidden" id="tab-content">
+      <h2 class="sec-title">Invitation Content</h2>
+      <div class="content-form" id="contentForm">
+        <div class="field-group">
+          <h3>Couple Names</h3>
+          <div class="field-row">
+            <div><div class="field-tag">Groom <span class="ar">(AR)</span></div><input class="field-input" id="cfg_name_groom_ar" /></div>
+            <div><div class="field-tag">Groom (EN)</div><input class="field-input" id="cfg_name_groom_en" /></div>
+          </div>
+          <div class="field-row">
+            <div><div class="field-tag">Bride <span class="ar">(AR)</span></div><input class="field-input" id="cfg_name_bride_ar" /></div>
+            <div><div class="field-tag">Bride (EN)</div><input class="field-input" id="cfg_name_bride_en" /></div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Families</h3>
+          <div class="field-row">
+            <div><div class="field-tag">Groom Family <span class="ar">(AR)</span></div><input class="field-input" id="cfg_family_groom_ar" /></div>
+            <div><div class="field-tag">Groom Family (EN)</div><input class="field-input" id="cfg_family_groom_en" /></div>
+          </div>
+          <div class="field-row">
+            <div><div class="field-tag">Bride Family <span class="ar">(AR)</span></div><input class="field-input" id="cfg_family_bride_ar" /></div>
+            <div><div class="field-tag">Bride Family (EN)</div><input class="field-input" id="cfg_family_bride_en" /></div>
+          </div>
+          <div class="field-row single">
+            <div><div class="field-tag">Parents Invite <span class="ar">(AR)</span></div><textarea class="field-input field-textarea" id="cfg_parents_ar"></textarea></div>
+            <div><div class="field-tag">Parents Invite (EN)</div><textarea class="field-input field-textarea" id="cfg_parents_en"></textarea></div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Date & Location</h3>
+          <div class="field-row">
+            <div><div class="field-tag">Date Range <span class="ar">(AR)</span></div><input class="field-input" id="cfg_date_ar" /></div>
+            <div><div class="field-tag">Date Range (EN)</div><input class="field-input" id="cfg_date_en" /></div>
+          </div>
+          <div class="field-row">
+            <div><div class="field-tag">City <span class="ar">(AR)</span></div><input class="field-input" id="cfg_city_ar" /></div>
+            <div><div class="field-tag">City (EN)</div><input class="field-input" id="cfg_city_en" /></div>
+          </div>
+          <div class="field-row">
+            <div><div class="field-tag">Countdown Target (ISO)</div><input class="field-input" id="cfg_countdown" placeholder="2026-08-07T17:00:00+01:00" /></div>
+            <div><div class="field-tag">RSVP Deadline</div><input class="field-input" id="cfg_rsvp_deadline" placeholder="2026-07-07" /></div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <h3>Events</h3>
+          <div id="eventsContainer"></div>
+          <button class="add-btn" id="addEventBtn">+ Add Event</button>
+        </div>
+      </div>
+
+      <div class="save-bar">
+        <button class="save-btn" id="saveContentBtn">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- ===== RSVPS ===== -->
+    <div class="tab-pane hidden" id="tab-rsvp">
+      <h2 class="sec-title">RSVP Responses</h2>
+      <div class="filter-row">
+        <button class="filter-btn active" data-rsvp-filter="all">All</button>
+        <button class="filter-btn" data-rsvp-filter="yes">Confirmed</button>
+        <button class="filter-btn" data-rsvp-filter="no">Declined</button>
+        <button class="export-btn" id="exportCsvBtn">Export CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Name</th><th>Email</th><th>Attending</th><th>Message</th><th>Date</th></tr></thead>
+        <tbody id="rsvpBody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ===== GUESTS ===== -->
+    <div class="tab-pane hidden" id="tab-guests">
+      <h2 class="sec-title">Guest List</h2>
+      <div class="guest-add">
+        <input type="text" id="guestName" placeholder="Guest name" />
+        <input type="email" id="guestEmail" placeholder="Email (optional)" />
+        <input type="tel" id="guestPhone" placeholder="Phone (optional)" />
+        <button id="addGuestBtn">+ Add</button>
+      </div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="guestBody"></tbody></table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="save-toast" id="saveToast">Saved ✓</div>
+
+<script type="module">
+/* ============================================================
+   FIREBASE CONFIG — Replace with your own project config
+   See: https://console.firebase.google.com → Project Settings → Web App
+   ============================================================ */
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "your-project.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-project.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, collection,
+  collectionGroup, getDocs, addDoc, deleteDoc, query, orderBy,
+  onSnapshot, serverTimestamp, where, limit
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+let app, auth, db;
+try {
+  app = initializeApp(FIREBASE_CONFIG);
+  auth = getAuth(app);
+  db = getFirestore(app);
+} catch(e) {
+  document.getElementById("loginErr").textContent = "Firebase config missing — edit admin.html";
+}
+
+/* ===== auth ===== */
+const loginWrap = document.getElementById("loginWrap");
+const appEl = document.getElementById("app");
+
+document.getElementById("loginBtn").addEventListener("click", async ()=>{
+  const email = document.getElementById("loginEmail").value;
+  const pass = document.getElementById("loginPass").value;
+  document.getElementById("loginErr").textContent = "";
+  if(!auth) { document.getElementById("loginErr").textContent = "Firebase not configured"; return; }
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e) {
+    document.getElementById("loginErr").textContent = e.message.replace("Firebase: ","").replace(/\(auth\/.*\)\./,"").trim();
+  }
+});
+
+onAuthStateChanged(auth, (user)=>{
+  if(user){
+    loginWrap.classList.add("hidden");
+    appEl.classList.add("show");
+    document.getElementById("userEmail").textContent = user.email;
+    initApp();
+  } else {
+    loginWrap.classList.remove("hidden");
+    appEl.classList.remove("show");
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", ()=> signOut(auth));
+
+/* ===== tabs ===== */
+document.querySelectorAll(".topbar-link").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll(".topbar-link").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    document.querySelectorAll(".tab-pane").forEach(p=>p.classList.add("hidden"));
+    document.getElementById("tab-"+btn.dataset.tab).classList.remove("hidden");
+  });
+});
+
+/* ===== toast ===== */
+function showToast(){const t=document.getElementById("saveToast");t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2000);}
+
+/* ===== init ===== */
+function initApp(){
+  loadDashboard();
+  loadContent();
+  loadRsvps();
+  loadGuests();
+}
+
+/* ===== dashboard ===== */
+function loadDashboard(){
+  if(!db) return;
+
+  // guests stats
+  const guestsRef = collection(db, "guests");
+  onSnapshot(guestsRef, (snap)=>{
+    const total = snap.size;
+    let yes=0, no=0, pending=0;
+    snap.forEach(doc=>{
+      const s = doc.data().rsvp_status;
+      if(s==="yes") yes++;
+      else if(s==="no") no++;
+      else pending++;
+    });
+    document.getElementById("statTotal").textContent = total;
+    document.getElementById("statYes").textContent = yes;
+    document.getElementById("statNo").textContent = no;
+    document.getElementById("statPending").textContent = pending;
+  });
+
+  // recent rsvps
+  const rsvpRef = collection(db, "rsvp");
+  const rsvpQ = query(rsvpRef, orderBy("created_at","desc"), limit(5));
+  onSnapshot(rsvpQ, (snap)=>{
+    const body = document.getElementById("recentRsvpBody");
+    body.innerHTML = "";
+    snap.forEach(doc=>{
+      const d = doc.data();
+      const badge = d.attending==="yes"
+        ? '<span class="badge yes">Yes</span>'
+        : d.attending==="no" ? '<span class="badge no">No</span>' : '—';
+      const date = d.created_at?.toDate ? d.created_at.toDate().toLocaleDateString() : "—";
+      body.innerHTML += `<tr><td>${d.name||"—"}</td><td>${badge}</td><td>${date}</td></tr>`;
+    });
+    body.innerHTML = body.innerHTML || '<tr><td colspan="3" style="text-align:center;color:var(--ink-mute)">No RSVPs yet</td></tr>';
+  });
+}
+
+/* ===== content ===== */
+let currentConfig = null;
+
+async function loadContent(){
+  if(!db) return;
+  const ref = doc(db, "wedding", "config");
+  try {
+    const snap = await getDoc(ref);
+    if(snap.exists()) currentConfig = snap.data();
+    else {
+      // initialize with defaults from wedding-data.json
+      currentConfig = getDefaultConfig();
+      await setDoc(ref, currentConfig);
+    }
+    populateContentForm(currentConfig);
+  } catch(e) {
+    console.error("Content load error:", e);
+    currentConfig = getDefaultConfig();
+    populateContentForm(currentConfig);
+  }
+}
+
+function getDefaultConfig(){
+  return {
+    name_groom: {ar:"صفوان", en:"Safwane"},
+    name_bride: {ar:"منال", en:"Manel"},
+    family_groom: {ar:"التيح", en:"Ettih"},
+    family_bride: {ar:"الزعبي", en:"Zaabi"},
+    parents_invite: {
+      ar:"يتشرف آلُ التيح وآلُ الزعبي بدعوتِكم لمشاركتِهم فرحةَ زفافِ فلذتَي أكبادِهم",
+      en:"The Ettih and Zaabi families cordially invite you to share the joy of their children's wedding"
+    },
+    date_range: {ar:"06 — 07 أوت 2026", en:"06 — 07 August 2026"},
+    city: {ar:"تونس العاصمة · تونس", en:"Tunis · Tunisia"},
+    countdown_target:"2026-08-07T17:00:00+01:00",
+    rsvp_deadline:"2026-07-07",
+    events: [
+      {
+        id:"ev1", is_main:false,
+        day:"06", weekday:{ar:"الخميس",en:"Thursday"}, month:{ar:"أوت 2026",en:"August 2026"},
+        tag:{ar:"المناسبة الأولى",en:"First Celebration"},
+        title:{ar:"الحناء والوليمة",en:"Henna & Walima"},
+        time:{ar:"7:00 مساءً",en:"7:00 PM"},
+        venue:{ar:"Dar Younsi",en:"Dar Younsi"},
+        location:{ar:"تونس العاصمة · تونس",en:"Tunis · Tunisia"},
+        maps_link:"https://maps.app.goo.gl/yhWdSHQb3WR4FPjj7"
+      },
+      {
+        id:"ev2", is_main:true,
+        day:"07", weekday:{ar:"الجمعة",en:"Friday"}, month:{ar:"أوت 2026",en:"August 2026"},
+        tag:{ar:"المناسبة الرئيسية",en:"The Main Event"},
+        title:{ar:"ليلةُ الزفاف",en:"The Wedding"},
+        time:{ar:"5:00 عصرًا",en:"5:00 PM"},
+        venue:{ar:"Haifa Palace",en:"Haifa Palace"},
+        location:{ar:"Route Mornag · تونس",en:"Route Mornag · Tunis"},
+        maps_link:"https://maps.app.goo.gl/mdsh987HsGudBCRb9"
+      }
+    ]
+  };
+}
+
+function populateContentForm(cfg){
+  document.getElementById("cfg_name_groom_ar").value = cfg.name_groom?.ar || "";
+  document.getElementById("cfg_name_groom_en").value = cfg.name_groom?.en || "";
+  document.getElementById("cfg_name_bride_ar").value = cfg.name_bride?.ar || "";
+  document.getElementById("cfg_name_bride_en").value = cfg.name_bride?.en || "";
+  document.getElementById("cfg_family_groom_ar").value = cfg.family_groom?.ar || "";
+  document.getElementById("cfg_family_groom_en").value = cfg.family_groom?.en || "";
+  document.getElementById("cfg_family_bride_ar").value = cfg.family_bride?.ar || "";
+  document.getElementById("cfg_family_bride_en").value = cfg.family_bride?.en || "";
+  document.getElementById("cfg_parents_ar").value = cfg.parents_invite?.ar || "";
+  document.getElementById("cfg_parents_en").value = cfg.parents_invite?.en || "";
+  document.getElementById("cfg_date_ar").value = cfg.date_range?.ar || "";
+  document.getElementById("cfg_date_en").value = cfg.date_range?.en || "";
+  document.getElementById("cfg_city_ar").value = cfg.city?.ar || "";
+  document.getElementById("cfg_city_en").value = cfg.city?.en || "";
+  document.getElementById("cfg_countdown").value = cfg.countdown_target || "";
+  document.getElementById("cfg_rsvp_deadline").value = cfg.rsvp_deadline || "";
+
+  // events
+  const container = document.getElementById("eventsContainer");
+  container.innerHTML = "";
+  (cfg.events || []).forEach((ev, i) => {
+    container.appendChild(buildEventCard(ev, i));
+  });
+}
+
+function buildEventCard(ev, idx){
+  const card = document.createElement("div");
+  card.className = "event-card";
+  card.dataset.idx = idx;
+  card.innerHTML = `
+    <button class="event-remove" data-idx="${idx}">Remove</button>
+    <h4>Event ${idx+1}</h4>
+    <div class="field-row">
+      <div><div class="field-tag">Title <span class="ar">(AR)</span></div><input class="field-input" data-ev="title_ar" value="${ev.title?.ar||''}" /></div>
+      <div><div class="field-tag">Title (EN)</div><input class="field-input" data-ev="title_en" value="${ev.title?.en||''}" /></div>
+    </div>
+    <div class="field-row">
+      <div><div class="field-tag">Day</div><input class="field-input" data-ev="day" value="${ev.day||''}" /></div>
+      <div><div class="field-tag">Weekday <span class="ar">(AR)</span></div><input class="field-input" data-ev="weekday_ar" value="${ev.weekday?.ar||''}" /></div>
+    </div>
+    <div class="field-row">
+      <div><div class="field-tag">Time <span class="ar">(AR)</span></div><input class="field-input" data-ev="time_ar" value="${ev.time?.ar||''}" /></div>
+      <div><div class="field-tag">Time (EN)</div><input class="field-input" data-ev="time_en" value="${ev.time?.en||''}" /></div>
+    </div>
+    <div class="field-row">
+      <div><div class="field-tag">Venue</div><input class="field-input" data-ev="venue" value="${ev.venue?.ar||''}" /></div>
+      <div><div class="field-tag">Location</div><input class="field-input" data-ev="location" value="${ev.location?.ar||''}" /></div>
+    </div>
+    <div class="field-row single">
+      <div><div class="field-tag">Maps Link</div><input class="field-input" data-ev="maps_link" value="${ev.maps_link||''}" /></div>
+    </div>
+    <div class="field-row single">
+      <div><label style="font-size:.72rem;display:flex;align-items:center;gap:.4rem;cursor:pointer"><input type="checkbox" data-ev="is_main" ${ev.is_main?'checked':''} /> Main Event</label></div>
+    </div>
+  `;
+  card.querySelector(".event-remove").addEventListener("click", ()=>{
+    card.remove();
+  });
+  return card;
+}
+
+document.getElementById("addEventBtn").addEventListener("click", ()=>{
+  const container = document.getElementById("eventsContainer");
+  const idx = container.children.length;
+  container.appendChild(buildEventCard({
+    id:"ev"+(idx+1), is_main:false, day:"", weekday:{ar:"",en:""}, month:{ar:"",en:""},
+    tag:{ar:"",en:""}, title:{ar:"",en:""}, time:{ar:"",en:""},
+    venue:{ar:"",en:""}, location:{ar:"",en:""}, maps_link:""
+  }, idx));
+});
+
+document.getElementById("saveContentBtn").addEventListener("click", async ()=>{
+  if(!db) return;
+  const cfg = {
+    name_groom: {ar:val("cfg_name_groom_ar"), en:val("cfg_name_groom_en")},
+    name_bride: {ar:val("cfg_name_bride_ar"), en:val("cfg_name_bride_en")},
+    family_groom: {ar:val("cfg_family_groom_ar"), en:val("cfg_family_groom_en")},
+    family_bride: {ar:val("cfg_family_bride_ar"), en:val("cfg_family_bride_en")},
+    parents_invite: {ar:val("cfg_parents_ar"), en:val("cfg_parents_en")},
+    date_range: {ar:val("cfg_date_ar"), en:val("cfg_date_en")},
+    city: {ar:val("cfg_city_ar"), en:val("cfg_city_en")},
+    countdown_target: val("cfg_countdown"),
+    rsvp_deadline: val("cfg_rsvp_deadline"),
+    events: []
+  };
+
+  document.querySelectorAll(".event-card").forEach(card => {
+    const ev = {
+      id:"ev"+(cfg.events.length+1),
+      is_main: card.querySelector('[data-ev="is_main"]').checked,
+      day: card.querySelector('[data-ev="day"]').value,
+      weekday: {ar: card.querySelector('[data-ev="weekday_ar"]').value, en:""},
+      month: {ar:"أوت 2026", en:"August 2026"},
+      tag:{ar:"", en:""},
+      title:{ar: card.querySelector('[data-ev="title_ar"]').value, en: card.querySelector('[data-ev="title_en"]').value},
+      time:{ar: card.querySelector('[data-ev="time_ar"]').value, en: card.querySelector('[data-ev="time_en"]').value},
+      venue:{ar: card.querySelector('[data-ev="venue"]').value, en: card.querySelector('[data-ev="venue"]').value},
+      location:{ar: card.querySelector('[data-ev="location"]').value, en: card.querySelector('[data-ev="location"]').value},
+      maps_link: card.querySelector('[data-ev="maps_link"]').value
+    };
+    cfg.events.push(ev);
+  });
+
+  try {
+    await setDoc(doc(db,"wedding","config"), cfg);
+    showToast();
+  } catch(e) {
+    console.error("Save error:", e);
+    alert("Error saving: "+e.message);
+  }
+});
+
+function val(id){ return document.getElementById(id).value; }
+
+/* ===== rsvps ===== */
+let allRsvps = [];
+let rsvpFilter = "all";
+
+document.querySelectorAll("[data-rsvp-filter]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("[data-rsvp-filter]").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    rsvpFilter = btn.dataset.rsvpFilter;
+    renderRsvps();
+  });
+});
+
+function loadRsvps(){
+  if(!db) return;
+  const ref = collection(db, "rsvp");
+  const q = query(ref, orderBy("created_at","desc"));
+  onSnapshot(q, (snap)=>{
+    allRsvps = [];
+    snap.forEach(doc => {
+      allRsvps.push({id:doc.id, ...doc.data()});
+    });
+    renderRsvps();
+  });
+}
+
+function renderRsvps(){
+  const body = document.getElementById("rsvpBody");
+  const filtered = allRsvps.filter(r =>
+    rsvpFilter === "all" || r.attending === rsvpFilter
+  );
+  body.innerHTML = "";
+  filtered.forEach(r => {
+    const badge = r.attending==="yes"
+      ? '<span class="badge yes">Yes</span>'
+      : '<span class="badge no">No</span>';
+    const date = r.created_at?.toDate ? r.created_at.toDate().toLocaleDateString() : "—";
+    body.innerHTML += `<tr>
+      <td>${r.name||"—"}</td>
+      <td>${r.email||"—"}</td>
+      <td>${badge}</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.message||"—"}</td>
+      <td>${date}</td>
+    </tr>`;
+  });
+  body.innerHTML = body.innerHTML || '<tr><td colspan="5" style="text-align:center;color:var(--ink-mute)">No RSVPs yet</td></tr>';
+}
+
+document.getElementById("exportCsvBtn").addEventListener("click", ()=>{
+  const rows = [["Name","Email","Attending","Message","Date"]];
+  allRsvps.forEach(r => {
+    const date = r.created_at?.toDate ? r.created_at.toDate().toISOString() : "";
+    rows.push([r.name||"", r.email||"", r.attending||"", r.message||"", date]);
+  });
+  const csv = rows.map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(",")).join("\n");
+  const blob = new Blob([csv], {type:"text/csv"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "rsvp-export.csv"; a.click();
+  URL.revokeObjectURL(url);
+});
+
+/* ===== guests ===== */
+let allGuests = [];
+
+function loadGuests(){
+  if(!db) return;
+  const ref = collection(db, "guests");
+  onSnapshot(ref, (snap)=>{
+    allGuests = [];
+    snap.forEach(doc => {
+      allGuests.push({id:doc.id, ...doc.data()});
+    });
+    renderGuests();
+  });
+}
+
+function renderGuests(){
+  const body = document.getElementById("guestBody");
+  body.innerHTML = "";
+  allGuests.forEach(g => {
+    const status = g.rsvp_status;
+    const badge = status==="yes" ? '<span class="badge yes">Confirmed</span>'
+      : status==="no" ? '<span class="badge no">Declined</span>'
+      : '<span class="badge pending">Pending</span>';
+    body.innerHTML += `<tr>
+      <td>${g.name||"—"}</td>
+      <td>${g.email||"—"}</td>
+      <td>${g.phone||"—"}</td>
+      <td>${badge}</td>
+      <td><div class="guest-actions">
+        <button class="mail" data-guest-id="${g.id}" data-guest-email="${g.email||''}">✉</button>
+        <button data-guest-id="${g.id}">Delete</button>
+      </div></td>
+    </tr>`;
+  });
+  body.innerHTML = body.innerHTML || '<tr><td colspan="5" style="text-align:center;color:var(--ink-mute)">No guests yet</td></tr>';
+
+  // wire delete
+  body.querySelectorAll("button:not(.mail)").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const id = btn.dataset.guestId;
+      if(confirm("Delete this guest?")) await deleteDoc(doc(db,"guests",id));
+    });
+  });
+}
+
+document.getElementById("addGuestBtn").addEventListener("click", async ()=>{
+  const name = document.getElementById("guestName").value.trim();
+  if(!name) return;
+  const email = document.getElementById("guestEmail").value.trim();
+  const phone = document.getElementById("guestPhone").value.trim();
+  if(!db) return;
+  try {
+    await addDoc(collection(db,"guests"), {
+      name, email, phone, rsvp_status:"pending", created_at: serverTimestamp()
+    });
+    document.getElementById("guestName").value = "";
+    document.getElementById("guestEmail").value = "";
+    document.getElementById("guestPhone").value = "";
+  } catch(e) { console.error(e); alert("Error: "+e.message); }
+});
+
+// enter key to add guest
+document.getElementById("guestPhone").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addGuestBtn").click(); });
+document.getElementById("guestName").addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("addGuestBtn").click(); });
+</script>
+</body>
+</html>
