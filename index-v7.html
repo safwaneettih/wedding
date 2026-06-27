@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <style>
 :root{
@@ -471,6 +473,8 @@ body.lang-ar .ticket-foot span{font-family:var(--ar-body);letter-spacing:.04em;t
 
 <script>
 (function(){
+  const FC={apiKey:"AIzaSyBbV2S-1VHxx4op16jrmtnVT4h-sCOyj-Y",authDomain:"wedding-invitation-e2755.firebaseapp.com",projectId:"wedding-invitation-e2755",storageBucket:"wedding-invitation-e2755.firebasestorage.app",messagingSenderId:"132995136347",appId:"1:132995136347:web:d72c521ee17d759703787e"};
+  let db=null;try{firebase.initializeApp(FC);db=firebase.firestore()}catch(e){console.warn("FB",e)}
   const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
 
   const I18N = {
@@ -712,11 +716,11 @@ body.lang-ar .ticket-foot span{font-family:var(--ar-body);letter-spacing:.04em;t
       document.getElementById("rsvpSubmit").disabled = false;
     });
   });
-  document.getElementById("rsvpForm").addEventListener("submit", e=>{
+  document.getElementById("rsvpForm").addEventListener("submit", async e=>{
     e.preventDefault();
-    const s = document.getElementById("rsvpSubmit");
-    s.innerHTML = "<span>✓</span>";
-    s.disabled = true;
+    const s=document.getElementById("rsvpSubmit"),name=document.getElementById("rsvp-name").value.trim(),email=document.getElementById("rsvp-email").value.trim(),msg=document.getElementById("rsvp-message").value.trim();
+    if(!name||!attendVal)return;s.disabled=true;s.innerHTML="...";
+    if(db){try{await db.collection("rsvp").add({name,email,attending:attendVal,message:msg,created_at:firebase.firestore.FieldValue.serverTimestamp()});s.innerHTML="<span>✓</span>"}catch(e){s.innerHTML="<span>✗</span>";s.disabled=false}}else{s.innerHTML="<span>✓</span>"}
   });
 
   /* ===== reveal ===== */

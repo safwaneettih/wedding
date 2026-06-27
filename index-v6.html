@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Italiana&family=Mulish:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
 <style>
   :root{
@@ -371,6 +373,23 @@
   .rsvp-btn{margin-bottom:3rem}
   .meta{font-family:var(--sans);font-size:.78rem;letter-spacing:.28em;color:var(--ink-mute);text-transform:uppercase;font-weight:600}
   body.lang-ar .meta{font-family:var(--ar-body);letter-spacing:.06em;text-transform:none;font-size:.9rem}
+  .rsvp-f{max-width:480px;margin:0 auto 3rem}
+  .rsvp-f .field{margin-bottom:1.4rem}
+  .rsvp-f label{display:block;font-family:var(--sans);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:.4rem;font-weight:600}
+  body.lang-ar .rsvp-f label{font-family:var(--ar-body);letter-spacing:.06em;text-transform:none;font-size:.82rem}
+  .rsvp-f input,.rsvp-f textarea{width:100%;padding:.85rem 1rem;border:1px solid var(--line);border-radius:0;background:var(--pearl);font-family:var(--display);font-size:1rem;color:var(--ink);transition:border-color .3s var(--ease);outline:none;resize:vertical;box-sizing:border-box}
+  body.lang-ar .rsvp-f input,body.lang-ar .rsvp-f textarea{font-family:var(--ar-body)}
+  .rsvp-f input:focus,.rsvp-f textarea:focus{border-color:var(--gold)}
+  .rsvp-f textarea{min-height:80px}
+  .attend-opts{display:flex;gap:.8rem;flex-wrap:wrap}
+  .attend-opts button{flex:1;min-width:140px;padding:.75rem 1rem;border:1px solid var(--line);background:var(--pearl);font-family:var(--sans);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;transition:all .3s var(--ease);font-weight:500}
+  body.lang-ar .attend-opts button{font-family:var(--ar-body);letter-spacing:.04em;text-transform:none}
+  .attend-opts button:hover{border-color:var(--emerald);color:var(--emerald)}
+  .attend-opts button.active{background:var(--emerald);color:var(--pearl);border-color:var(--emerald)}
+  .rsvp-f .submit-btn{width:100%;padding:.85rem 2rem;border:1px solid var(--emerald);background:var(--emerald);color:var(--pearl);font-family:var(--sans);font-size:.85rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .3s var(--ease);font-weight:600;margin-top:.6rem}
+  body.lang-ar .rsvp-f .submit-btn{font-family:var(--ar-display);letter-spacing:.06em;text-transform:none;font-size:.92rem}
+  .rsvp-f .submit-btn:hover:not(:disabled){background:var(--emerald-deep);border-color:var(--emerald-deep);transform:translateY(-2px);box-shadow:0 10px 30px rgba(31,77,60,.25)}
+  .rsvp-f .submit-btn:disabled{opacity:.4;cursor:default}
 
   /* ===== responsive ===== */
   @media (max-width:680px){
@@ -588,7 +607,30 @@
 
       <p class="rsvp-msg reveal r3" data-i18n="rsvp_msg">نسألُ اللهَ أن يباركَ هذا الزواجَ ويجمعَ بينَ قلبَيهما بالألفةِ والمودة</p>
 
-      <a class="btn rsvp-btn reveal r4" href="mailto:rsvp@lina-adam.wedding?subject=%D8%AA%D8%A3%D9%83%D9%8A%D8%AF%20%D8%A7%D9%84%D8%AD%D8%B6%D9%88%D8%B1" data-i18n="rsvp_btn">تأكيدُ الحضور</a>
+      <form class="rsvp-f reveal r4" id="rsvpForm">
+        <div class="field">
+          <label data-i18n="f_name">الاسم الكامل *</label>
+          <input type="text" id="rsvp-name" required data-i18n-ph="f_name_ph" placeholder="اسمك" />
+        </div>
+        <div class="field">
+          <label data-i18n="f_email">البريد الإلكتروني</label>
+          <input type="email" id="rsvp-email" data-i18n-ph="f_email_ph" placeholder="you@email.com" />
+        </div>
+        <div class="field">
+          <label data-i18n="f_attend">هل ستكون حاضرًا؟ *</label>
+          <div class="attend-opts">
+            <button type="button" class="attend-btn" data-attend="yes" data-i18n="f_yes">نعم، سأكون هناك</button>
+            <button type="button" class="attend-btn" data-attend="no" data-i18n="f_no">للأسف لا أستطيع الحضور</button>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="f_msg">رسالة للعروسين</label>
+          <textarea id="rsvp-message" data-i18n-ph="f_msg_ph" placeholder="اكتب لنا بعض الكلمات..." rows="3"></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="rsvpSubmit" disabled>
+          <span data-i18n="f_submit">تأكيد</span>
+        </button>
+      </form>
 
       <div class="divider reveal r5">
         <span class="d-line"></span>
@@ -604,6 +646,8 @@
 
 <script>
 (function(){
+  const FC={apiKey:"AIzaSyBbV2S-1VHxx4op16jrmtnVT4h-sCOyj-Y",authDomain:"wedding-invitation-e2755.firebaseapp.com",projectId:"wedding-invitation-e2755",storageBucket:"wedding-invitation-e2755.firebasestorage.app",messagingSenderId:"132995136347",appId:"1:132995136347:web:d72c521ee17d759703787e"};
+  let db=null;try{firebase.initializeApp(FC);db=firebase.firestore()}catch(e){console.warn("FB",e)}
   const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
   const isTouch = matchMedia("(pointer:coarse)").matches;
 
@@ -626,7 +670,9 @@
       ev2_title:"ليلةُ الزفاف", ev2_time:"8:00 مساءً", ev2_venue:"Haifa Palace", ev2_loc:"Route Mornag · تونس",
       ev_link:"الاتجاهات ← Google Maps",
       rsvp_msg:"نسألُ اللهَ أن يباركَ هذا الزواجَ ويجمعَ بينَ قلبَيهما بالألفةِ والمودة",
-      rsvp_btn:"تأكيدُ الحضور",
+      f_name:"الاسم الكامل *",f_name_ph:"اسمك",f_email:"البريد الإلكتروني",f_email_ph:"you@email.com",
+      f_attend:"هل ستكون حاضرًا؟ *",f_yes:"نعم، سأكون هناك",f_no:"للأسف لا أستطيع الحضور",
+      f_msg:"رسالة للعروسين",f_msg_ph:"اكتب لنا بعض الكلمات...",f_submit:"تأكيد",
       meta:"صفوان و منال · 06-07 · 08 · 2026 · تونس"
     },
     en:{
@@ -647,7 +693,9 @@
       ev2_title:"The Wedding", ev2_time:"8:00 PM", ev2_venue:"Haifa Palace", ev2_loc:"Route Mornag · Tunis",
       ev_link:"Directions → Google Maps",
       rsvp_msg:"May Allah bless this union and unite their hearts in love and harmony.",
-      rsvp_btn:"Confirm Attendance",
+      f_name:"Full name *",f_name_ph:"Your name",f_email:"Email",f_email_ph:"you@email.com",
+      f_attend:"Will you be attending? *",f_yes:"Yes, I'll be there",f_no:"Sorry, I can't make it",
+      f_msg:"Message for the couple",f_msg_ph:"Write a few words...",f_submit:"Confirm",
       meta:"Safwane & Manel · 06-07 · 08 · 2026 · Tunis"
     }
   };
@@ -664,6 +712,10 @@
       const v = I18N[l][k];
       if(v != null && v !== "") el.innerHTML = v;
     });
+    document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+      const v = I18N[l][el.getAttribute("data-i18n-ph")];
+      if(v != null) el.placeholder = v;
+    });
     renderCountdown();
   }
 
@@ -671,6 +723,15 @@
   switchBtn.addEventListener("click", ()=>{
     applyLang(lang==="ar" ? "en" : "ar");
   });
+
+  let attendVal=null;
+  document.querySelectorAll(".attend-btn").forEach(btn=>btn.addEventListener("click",()=>{
+    document.querySelectorAll(".attend-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+    attendVal=btn.dataset.attend;document.getElementById("rsvpSubmit").disabled=false;}));
+  document.getElementById("rsvpForm").addEventListener("submit",async e=>{e.preventDefault();
+    const s=document.getElementById("rsvpSubmit"),name=document.getElementById("rsvp-name").value.trim(),email=document.getElementById("rsvp-email").value.trim(),msg=document.getElementById("rsvp-message").value.trim();
+    if(!name||!attendVal)return;s.disabled=true;s.innerHTML="...";
+    if(db){try{await db.collection("rsvp").add({name,email,attending:attendVal,message:msg,created_at:firebase.firestore.FieldValue.serverTimestamp()});s.innerHTML="<span>✓</span>"}catch(e){s.innerHTML="<span>✗</span>";s.disabled=false}}else{s.innerHTML="<span>✓</span>"}});
 
   const TARGET = new Date("2026-08-07T17:00:00+01:00").getTime();
   let lastVals = {};
