@@ -26,6 +26,7 @@ html{-webkit-font-smoothing:antialiased}
 body{font-family:var(--font);color:var(--ink);background:var(--paper);min-height:100vh}
 a{color:inherit;text-decoration:none}
 button,input,textarea,select{font-family:inherit}
+.field-input option,.login-input option{font-family:inherit;color:var(--ink)}
 
 .hidden{display:none !important}
 
@@ -182,6 +183,7 @@ tr:last-child td{border-bottom:none}
     </div>
     <nav class="topbar-links">
       <button class="topbar-link active" data-tab="dashboard">Dashboard</button>
+      <button class="topbar-link" data-tab="designs">Designs</button>
       <button class="topbar-link" data-tab="content">Content</button>
       <button class="topbar-link" data-tab="rsvp">RSVPs</button>
       <button class="topbar-link" data-tab="guests">Guests</button>
@@ -207,6 +209,55 @@ tr:last-child td{border-bottom:none}
       <div class="table-wrap">
         <table><thead><tr><th>Name</th><th>Attending</th><th>Date</th></tr></thead>
         <tbody id="recentRsvpBody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- ===== DESIGNS ===== -->
+    <div class="tab-pane hidden" id="tab-designs">
+      <h2 class="sec-title">Active Designs</h2>
+      <p style="font-size:.82rem;color:var(--ink-mute);margin-bottom:1.5rem;max-width:500px">
+        Select which design version to show at each URL. Changes are live instantly — no rebuild needed.
+      </p>
+      <div class="field-group" style="max-width:500px">
+        <h3>Slot 1 · /wedding</h3>
+        <div class="field-row single">
+          <div>
+            <div class="field-tag">Active Design</div>
+            <select class="field-input" id="designSlot1" style="padding:.6em .8em">
+              <option value="none">— Hidden —</option>
+              <option value="v6">V6 · اللمسة الذهبية (Islamic Gold)</option>
+              <option value="v7">V7 · الباب المتوسطي (Mediterranean Door)</option>
+              <option value="v8-lantern">V8 · الفانوس (Lantern)</option>
+              <option value="v8-calligraphy">V8 · الخط (Calligraphy)</option>
+              <option value="v8-waxseal">V8 · الختم (Wax Seal)</option>
+            </select>
+          </div>
+        </div>
+        <p style="font-size:.76rem;color:var(--ink-mute);margin-top:.4rem">
+          URL: <a href="https://safwaneettih.github.io/wedding/" target="_blank" style="color:var(--blue);text-decoration:underline">safwaneettih.github.io/wedding/</a>
+        </p>
+      </div>
+      <div class="field-group" style="max-width:500px;margin-top:1rem">
+        <h3>Slot 2 · /wedding-2</h3>
+        <div class="field-row single">
+          <div>
+            <div class="field-tag">Active Design</div>
+            <select class="field-input" id="designSlot2" style="padding:.6em .8em">
+              <option value="none">— Hidden —</option>
+              <option value="v6">V6 · اللمسة الذهبية (Islamic Gold)</option>
+              <option value="v7">V7 · الباب المتوسطي (Mediterranean Door)</option>
+              <option value="v8-lantern">V8 · الفانوس (Lantern)</option>
+              <option value="v8-calligraphy">V8 · الخط (Calligraphy)</option>
+              <option value="v8-waxseal">V8 · الختم (Wax Seal)</option>
+            </select>
+          </div>
+        </div>
+        <p style="font-size:.76rem;color:var(--ink-mute);margin-top:.4rem">
+          URL: <a href="https://safwaneettih.github.io/wedding/wedding-2.html" target="_blank" style="color:var(--blue);text-decoration:underline">safwaneettih.github.io/wedding/wedding-2.html</a>
+        </p>
+      </div>
+      <div class="save-bar">
+        <button class="save-btn" id="saveDesignsBtn">Save Designs</button>
       </div>
     </div>
 
@@ -385,6 +436,7 @@ function showToast(){const t=document.getElementById("saveToast");t.classList.ad
 function initApp(){
   loadDashboard();
   loadContent();
+  loadDesigns();
   loadRsvps();
   loadGuests();
 }
@@ -629,6 +681,44 @@ function loadRsvps(){
     renderRsvps();
   });
 }
+
+/* ===== designs ===== */
+async function loadDesigns(){
+  if(!db) return;
+  try {
+    const snap = await getDoc(doc(db,"wedding","config"));
+    if(snap.exists()){
+      const d = snap.data();
+      document.getElementById("designSlot1").value = d.active_design || "none";
+      document.getElementById("designSlot2").value = d.active_design_2 || "none";
+    }
+  } catch(e) { console.error("Designs load error:", e); }
+}
+
+document.getElementById("saveDesignsBtn").addEventListener("click", async ()=>{
+  if(!db) return;
+  const slot1 = document.getElementById("designSlot1").value;
+  const slot2 = document.getElementById("designSlot2").value;
+  try {
+    const snap = await getDoc(doc(db,"wedding","config"));
+    if(snap.exists()){
+      await updateDoc(doc(db,"wedding","config"), {
+        active_design: slot1,
+        active_design_2: slot2
+      });
+    } else {
+      await setDoc(doc(db,"wedding","config"), {
+        active_design: slot1,
+        active_design_2: slot2,
+        ...getDefaultConfig()
+      });
+    }
+    showToast();
+  } catch(e) {
+    console.error("Save designs error:", e);
+    alert("Error: "+e.message);
+  }
+});
 
 function renderRsvps(){
   const body = document.getElementById("rsvpBody");

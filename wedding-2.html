@@ -47,7 +47,7 @@ try {
   const snap = await getDoc(doc(db,"wedding","config"));
   let design = "none";
   if(snap.exists()){
-    design = snap.data().active_design || "none";
+    design = snap.data().active_design_2 || "none";
   }
   const file = DESIGNS[design];
   if(file){
