@@ -700,23 +700,14 @@ document.getElementById("saveDesignsBtn").addEventListener("click", async ()=>{
   const slot1 = document.getElementById("designSlot1").value;
   const slot2 = document.getElementById("designSlot2").value;
   try {
-    const snap = await getDoc(doc(db,"wedding","config"));
-    if(snap.exists()){
-      await updateDoc(doc(db,"wedding","config"), {
-        active_design: slot1,
-        active_design_2: slot2
-      });
-    } else {
-      await setDoc(doc(db,"wedding","config"), {
-        active_design: slot1,
-        active_design_2: slot2,
-        ...getDefaultConfig()
-      });
-    }
+    await setDoc(doc(db,"wedding","config"), {
+      active_design: slot1,
+      active_design_2: slot2
+    }, { merge: true });
     showToast();
   } catch(e) {
     console.error("Save designs error:", e);
-    alert("Error: "+e.message);
+    alert("Error saving designs: "+e.message+"\n\nMake sure Firestore Database is created in your Firebase Console.");
   }
 });
 
